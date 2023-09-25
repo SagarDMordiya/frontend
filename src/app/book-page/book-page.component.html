@@ -1,0 +1,92 @@
+<div class="alert alert-danger" *ngIf="message">
+    <h5 class="text-center"> {{message}} </h5>
+</div>
+<br>
+
+<div class="container">
+    <h2> Book Dashboard </h2>
+    <div class="row">
+        <div class="col-md-6"> 
+            <input type="text" size="30" class="form-control" [(ngModel)] = "id" placeholder="Search by Book Id">
+        </div>
+        <div class="col-md-6">
+            <input type="text" size="30" class="form-control" [(ngModel)] = "searchTerm" (input)="filterBook()" placeholder="Filter by title or author"> <br>
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="findBook()">Search</button>
+    <button class="btn btn-success" (click)="addBookFlag()">Add</button>
+    <button class="btn btn-warning" (click)="fetchBooks()">Clear</button>        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id
+                    <button class="btn btn-sm" (click)="sortBooks(1)">↑</button>
+                    <button class="btn btn-sm" (click)="sortBooks(5)">↓</button>
+                </th>
+                <th>Title 
+                    <button class="btn btn-sm" (click)="sortBooks(2)">↑</button>
+                    <button class="btn btn-sm" (click)="sortBooks(6)">↓</button>
+                </th>
+                <th>Author 
+                    <button class="btn btn-sm" (click)="sortBooks(3)">↑</button>
+                    <button class="btn btn-sm" (click)="sortBooks(7)">↓</button>
+                </th>
+                <th>Year 
+                    <button class="btn btn-sm" (click)="sortBooks(4)">↑</button>
+                    <button class="btn btn-sm" (click)="sortBooks(8)">↓</button>
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td (click)="getBookDetails(book.id)">{{book.id}}</td>
+                <td (click)="getBookDetails(book.id)">{{book.title}}</td>
+                <td (click)="getBookDetails(book.id)">{{book.author}}</td>
+                <td (click)="getBookDetails(book.id)">{{book.year}}</td>
+                <td>
+                    <button class="btn btn-primary" (click)="updateBook(book)">Edit</button>
+                    <button class="btn btn-danger" (click)="deleteBook(book.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container" *ngIf="addFlag">
+    <h3> Add New Book</h3>
+    <form (ngSubmit)="addBook()">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" size="30" class="form-control" id="title" [(ngModel)]="newBook.title" name="title" required>
+            <label for="author">Author:</label>
+            <input type="text" size="30" class="form-control" id="Author" [(ngModel)]="newBook.author" name="Author" required>
+            <label for="year">Year:</label>
+            <input type="text" size="30" class="form-control" id="year" [(ngModel)]="newBook.year" name="year" required>
+        </div> <br>
+        <button type="submit" class="btn btn-success">Add</button>
+        <button class="btn btn-danger" (click)="closeAddBook()">Close</button>
+    </form>
+</div>
+<br>
+
+<div class="container" id="updateBook" *ngIf="updateFlag">
+    <div class="header" >
+        <h5>Update Book</h5>
+       
+    </div>
+        <div class="modal-body">
+            <form (ngSubmit)="toUpdateBook()">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" size="30" class="form-control" id="title" [(ngModel)]="changeBook.title" name="title" required>
+                    <label for="author">Author:</label>
+                    <input type="text" size="30" class="form-control" id="Author" [(ngModel)]="changeBook.author" name="Author" required>
+                    <label for="year">Year:</label>
+                    <input type="text" size="30" class="form-control" id="year" [(ngModel)]="changeBook.year" name="year" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <button class="btn btn-danger" (click)="closeUpdateBook()">Close</button>
+            </form>
+        </div>
+</div>
